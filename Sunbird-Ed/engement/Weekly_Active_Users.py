@@ -31,7 +31,7 @@ query ($cursor: String) {
 """
 
 url = 'https://api.github.com/graphql'
-headers = {"Authorization": "bearer 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"}
+headers = {"Authorization": "bearer "}
 
 cursor = None
 unique_users = set()
