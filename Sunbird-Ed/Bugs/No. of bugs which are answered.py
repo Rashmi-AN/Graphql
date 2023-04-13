@@ -29,7 +29,7 @@ def get_discussions(page_cursor=None):
     }
     """
     url = 'https://api.github.com/graphql'
-    headers = {"Authorization": "bearer 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"}
+    headers = {"Authorization": "bearer "}
     variables = {'cursor': page_cursor}
     response = requests.post(url, headers=headers, json={'query': query, 'variables': variables})
 
