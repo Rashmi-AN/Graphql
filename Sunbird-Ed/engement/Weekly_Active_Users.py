@@ -1,10 +1,16 @@
 import json
 import requests
 from datetime import datetime, timedelta
+import configparser
+
+config = configparser.ConfigParser(interpolation=None)
+config.read("Please add the config file path")
+
+name_of_community = config.get("COMMUNITY_NAME", "name")
 
 query = """
 query ($cursor: String) {
-  repository(owner: "sunbird-ed", name: "community") {
+  repository(owner: "%s", name: "community") {
     discussions(first: 100, after: $cursor) {
       pageInfo {
         hasNextPage
@@ -28,10 +34,12 @@ query ($cursor: String) {
     }
   }
 }
-"""
+""" % name_of_community
+
+token_details = config.get("BEARER", "token")
 
 url = 'https://api.github.com/graphql'
-headers = {"Authorization": "bearer "}
+headers = {"Authorization": "bearer " + token_details}
 
 cursor = None
 unique_users = set()
