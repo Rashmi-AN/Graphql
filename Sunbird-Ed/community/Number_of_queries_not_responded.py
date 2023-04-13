@@ -26,7 +26,7 @@ query = """
 """
 
 url = 'https://api.github.com/graphql'
-headers = {"Authorization": "bearer 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"}
+headers = {"Authorization": "bearer "}
 
 # Get start and end dates from the user
 start_date = input("Enter start date (YYYY-MM-DD): ")
