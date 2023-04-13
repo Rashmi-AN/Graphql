@@ -1,9 +1,15 @@
 import json
 import requests
+import configparser
+
+config = configparser.ConfigParser(interpolation=None)
+config.read("Please add the config file path")
+
+name_of_community = config.get("COMMUNITY_NAME", "name")
 
 query = """
 query($cursor: String) {
-  repository(owner: "sunbird-ed", name: "community") {
+  repository(owner: "%s", name: "community") {
     discussions(first: 100, after: $cursor) {
       pageInfo {
         endCursor
@@ -18,10 +24,12 @@ query($cursor: String) {
     }
   }
 }
-"""
+""" % name_of_community
+
+token_details = config.get("BEARER", "token")
 
 url = 'https://api.github.com/graphql'
-headers = {"Authorization": "bearer "}
+headers = {"Authorization": "bearer " + token_details}
 
 has_next_page = True
 end_cursor = None
