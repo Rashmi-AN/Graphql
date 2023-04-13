@@ -1,6 +1,7 @@
 import json
 import requests
 from datetime import datetime
+import configparser
 
 # Get user input for start and end date
 start_date_str = input("Enter start date (YYYY-MM-DD): ")
@@ -17,10 +18,15 @@ end_date_end = end_date.replace(hour=23, minute=59, second=59)
 start_date_iso = start_date.isoformat() + "Z"
 end_date_iso = end_date_end.isoformat() + "Z"
 
+config = configparser.ConfigParser(interpolation=None)
+config.read("Please add the config file path")
+
+name_of_community = config.get("COMMUNITY_NAME", "name")
+
 # Construct the query string
 query = """
 query($cursor: String) {
-  repository(owner: "sunbird-ed", name: "community") {
+  repository(owner: "%s", name: "community") {
     discussions(first: 100, after: $cursor) {
       pageInfo {
         endCursor
@@ -36,10 +42,12 @@ query($cursor: String) {
     }
   }
 }
-"""
+""" % name_of_community
+
+token_details = config.get("BEARER", "token")
 
 url = 'https://api.github.com/graphql'
-headers = {"Authorization": "bearer "}
+headers = {"Authorization": "bearer " + token_details}
 
 has_next_page = True
 end_cursor = None
