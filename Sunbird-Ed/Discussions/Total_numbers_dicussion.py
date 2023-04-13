@@ -11,7 +11,7 @@ query = """query {
 
 # res = requests.post('https://api.github.com/graphql',header)
 url = 'https://api.github.com/graphql'
-headers = {"Authorization": "bearer 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"}
+headers = {"Authorization": "bearer "}
 r = requests.post(url, headers=headers, json={'query': query})
 print(r.status_code)
 print(r.text)
