@@ -1,9 +1,15 @@
 import requests
 import datetime
+import configparser
+
+config = configparser.ConfigParser(interpolation=None)
+config.read("Please add the config file path")
+
+name_of_community = config.get("COMMUNITY_NAME", "name")
 
 query = """
   query ($cursor: String) {
-    repository(owner: "sunbird-ed", name: "community") {
+    repository(owner: "%s", name: "community") {
       discussions(first: 100, after: $cursor) {
         pageInfo {
           hasNextPage
@@ -23,10 +29,12 @@ query = """
       }
     }
   }
-"""
+""" % name_of_community
+
+token_details = config.get("BEARER", "token")
 
 url = 'https://api.github.com/graphql'
-headers = {"Authorization": "bearer "}
+headers = {"Authorization": "bearer " + token_details}
 
 # Get start and end dates from the user
 start_date = input("Enter start date (YYYY-MM-DD): ")
