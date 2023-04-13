@@ -21,7 +21,7 @@ query($cursor: String) {
 """
 
 url = 'https://api.github.com/graphql'
-headers = {"Authorization": "bearer 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"}
+headers = {"Authorization": "bearer "}
 
 has_next_page = True
 end_cursor = None
